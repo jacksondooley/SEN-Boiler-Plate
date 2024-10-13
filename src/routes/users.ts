@@ -1,6 +1,6 @@
 import express from 'express';
 import { db } from '../database/database';
-import { users } from '../models/users';
+import { users_table } from '../models/users';
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ router.post('', async (req, res) => {
   const { name, email, age } = req.body;
   try {
     console.log("test", name, email, age);
-    const newUser = await db.insert(users).values({ name, email, age }).returning();
+    const newUser = await db.insert(users_table).values({ name, email, age }).returning();
     console.log("test", newUser);
     res.json(newUser);
   } catch (error) {
@@ -19,7 +19,7 @@ router.post('', async (req, res) => {
 router.get('', async (req, res) => {
   try {
     console.log("getting all users")
-    const allUsers = await db.select().from(users);
+    const allUsers = await db.select().from(users_table);
     res.json(allUsers);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching users' });
